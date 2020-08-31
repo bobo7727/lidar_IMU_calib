@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-bag_path="/home/ha/rosbag/li_calib_data"
+# bag_path="/home/bobo/Downloads/li_calib_data"
+# bag_path="/media/bobo/Data_Collec/zhangbo"
+# bag_path="/media/bobo/Data_Collec/wp"
+bag_path="/media/bobo/Data_Proces"
 
 outdoor_sync_bag_name=(
+# 2020-08-28-10-54-51.bag
 #"Court-01.bag"
 #"Court-02.bag"
 #"Court-03.bag"
@@ -11,7 +15,11 @@ outdoor_sync_bag_name=(
 )
 
 indoor_sync_bag_name=(
-"Garage-01.bag"
+# 2020-08-28-10-54-51.bag
+# 2020-08-27-17-42-53.bag
+# 2020-08-27-17-47-21.bag
+2020-08-31-13-55-34.bag
+# "Garage-01.bag"
 #"Garage-02.bag"
 #"Garage-03.bag"
 #"Garage-04.bag"
@@ -19,12 +27,15 @@ indoor_sync_bag_name=(
 )
 
 imu_topic_name=(
-"/imu1/data_sync"
+# /cti/fpga_serial/imu
+# /cti/sensing/driver/imu/imu_std
+/mti/sensor/imu
+# "/imu1/data_sync"
 #"/imu2/data_sync"
 #"/imu3/data_sync"
 )
 
-bag_start=1
+bag_start=30
 bag_durr=30
 scan4map=15
 timeOffsetPadding=0.015

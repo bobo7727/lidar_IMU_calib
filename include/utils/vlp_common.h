@@ -149,21 +149,53 @@ public:
   }
 
 
+  // void unpack_scan(const sensor_msgs::PointCloud2::ConstPtr &lidarMsg,
+  //                  TPointCloud &outPointCloud) const {
+  //   VPointCloud temp_pc;
+  //   pcl::fromROSMsg(*lidarMsg, temp_pc);
+
+  //   outPointCloud.clear();
+  //   outPointCloud.header = pcl_conversions::toPCL(lidarMsg->header);
+  //   outPointCloud.height = temp_pc.height;
+  //   outPointCloud.width = temp_pc.width;
+  //   outPointCloud.is_dense = false;
+  //   outPointCloud.resize(outPointCloud.height * outPointCloud.width);
+
+  //   double timebase = lidarMsg->header.stamp.toSec();
+  //   for (int h = 0; h < temp_pc.height; h++) {
+  //     for (int w = 0; w < temp_pc.width; w++) {
+  //       TPoint point;
+  //       point.x = temp_pc.at(w,h).x;
+  //       point.y = temp_pc.at(w,h).y;
+  //       point.z = temp_pc.at(w,h).z;
+  //       point.intensity = temp_pc.at(w,h).intensity;
+  //       point.timestamp = timebase + getExactTime(h,w);
+  //       outPointCloud.at(w,h) = point;
+  //     }
+  //   }
+  // }
+
   void unpack_scan(const sensor_msgs::PointCloud2::ConstPtr &lidarMsg,
                    TPointCloud &outPointCloud) const {
     VPointCloud temp_pc;
     pcl::fromROSMsg(*lidarMsg, temp_pc);
-
     outPointCloud.clear();
     outPointCloud.header = pcl_conversions::toPCL(lidarMsg->header);
-    outPointCloud.height = temp_pc.height;
-    outPointCloud.width = temp_pc.width;
+    outPointCloud.height = 16;
+    outPointCloud.width = 1824;
     outPointCloud.is_dense = false;
-    outPointCloud.resize(outPointCloud.height * outPointCloud.width);
-
+    outPointCloud.resize(16 * 1824);
     double timebase = lidarMsg->header.stamp.toSec();
-    for (int h = 0; h < temp_pc.height; h++) {
-      for (int w = 0; w < temp_pc.width; w++) {
+    // std::cout << "\ntemp_pc.height16 " << temp_pc.height << std::endl;
+    // std::cout << "\ntemp_pc.width2040 " << temp_pc.width << std::endl;
+    // std::cout << "\noutPointCloud.height16 " << outPointCloud.height << std::endl;
+    // std::cout << "\noutPointCloud.width1824 " << outPointCloud.width << std::endl;
+    for (int h = 0; h < outPointCloud.height; h++) {
+      for (int w = 0; w < outPointCloud.width; w++) {
+        // if(temp_pc.at(w,h).x > 10 || temp_pc.at(w,h).x < -10 ||
+        //     temp_pc.at(w,h).y > 10 || temp_pc.at(w,h).y < -10) {
+        //   continue;
+        // }
         TPoint point;
         point.x = temp_pc.at(w,h).x;
         point.y = temp_pc.at(w,h).y;
@@ -174,8 +206,6 @@ public:
       }
     }
   }
-
-
   inline double getExactTime(int dsr, int firing) const {
     return mVLP16TimeBlock[firing][dsr];
   }

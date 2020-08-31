@@ -103,13 +103,10 @@ public:
             const std::string lidar_topic,
             const double bag_start = -1.0,
             const double bag_durr = -1.0) {
-
     data_.reset(new LioDataset(lidar_model_));
     data_->bag_.reset(new rosbag::Bag);
     data_->bag_->open(path, rosbag::bagmode::Read);
-
     init();
-
     rosbag::View view;
     {
       std::vector<std::string> topics;
@@ -124,7 +121,6 @@ public:
                               view_full.getEndTime() : time_init + ros::Duration(bag_durr);
       view.addQuery(*data_->bag_, rosbag::TopicQuery(topics), time_init, time_finish);
     }
-
     for (rosbag::MessageInstance const m : view) {
       const std::string &topic = m.getTopic();
 
@@ -144,11 +140,9 @@ public:
           timestamp = scan_msg->header.stamp.toSec();
           p_LidarConvert_->unpack_scan(scan_msg, pointcloud);
         }
-
         data_->scan_data_.emplace_back(pointcloud);
         data_->scan_timestamps_.emplace_back(timestamp);
       }
-
       if (imu_topic == topic) {
         sensor_msgs::ImuConstPtr imu_msg = m.instantiate<sensor_msgs::Imu>();
         double time = imu_msg->header.stamp.toSec();
@@ -163,7 +157,6 @@ public:
                 imu_msg->angular_velocity.z);
       }
     }
-
     std::cout << lidar_topic << ": " << data_->scan_data_.size() << std::endl;
     std::cout << imu_topic << ": " << data_->imu_data_.size() << std::endl;
   }

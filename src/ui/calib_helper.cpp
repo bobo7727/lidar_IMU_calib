@@ -121,6 +121,8 @@ void CalibrHelper::Initialization() {
     if (lidar_odom_->get_odom_data().size() < 30
         || (lidar_odom_->get_odom_data().size() % 10 != 0))
       continue;
+    std::cout << "\nlidar_odom_->get_odom_data().size() < 30 || (lidar_odom_->get_odom_data().size() % 10 != 0)\n"
+        << std::endl;
     if (rotation_initializer_->EstimateRotation(traj_manager_,
                                                 lidar_odom_->get_odom_data())) {
       Eigen::Quaterniond qItoLidar = rotation_initializer_->getQ_ItoS();
